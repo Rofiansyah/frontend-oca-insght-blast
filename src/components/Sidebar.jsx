@@ -20,7 +20,7 @@ const Sidebar = () => {
               className="hover:bg-gray-200 p-2 flex items-center justify-between w-full rounded"
             >
               <div className="flex items-center">
-                <img src="src/assets/Vector.png" alt="WhatsApp Logo" className="h-6 w-6 mr-2" />
+                <img src="public/assets/Vector.png" alt="WhatsApp Logo" className="h-6 w-6 mr-2" />
                 WhatsApp
               </div>
               {/* Icon panah */}

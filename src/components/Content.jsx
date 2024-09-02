@@ -41,7 +41,7 @@ const Content = () => {
       {/* Header dengan Logo dan Teks */}
       <div className="flex items-center mb-4">
         {/* Logo di samping kiri dengan jarak ke kiri */}
-        <img src="src/assets/speaker.png" alt="Speaker Logo" className="h-8 w-8 mr-6 ml-4" />
+        <img src="public/assets/speaker.png" alt="Speaker Logo" className="h-8 w-8 mr-6 ml-4" />
         <h2 className="text-2xl font-semibold">WhatsApp Broadcast Scheduler</h2>
       </div>
 
