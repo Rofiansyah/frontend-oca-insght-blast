@@ -22,12 +22,12 @@ const Header = () => {
           <img 
             src="/assets/OCAlogo.png" 
             alt="Logo 1"
-            className="h-10 w-auto ml-6 mr-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
+            className="h-10 w-auto ml-4 mr-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
           />
         </div>
 
         {/* Ikon di pojok kanan */}
-        <div className="flex items-center space-x-6">
+        <div className="flex items-center space-x-4">
           <img 
             src="/assets/u_bell.png" 
             alt="Bell Icon" 
