@@ -62,8 +62,8 @@ const Content = () => {
         <h3 className="text-xl font-bold text-gray-800 mb-4">BLAST YOUR MESSAGE</h3>
 
         {/* Baris 1: Checkbox Prime Time dan Input Jam */}
-        <div className="flex items-center justify-between mb-4">
-          <label className="flex items-center text-gray-700">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+          <label className="flex items-center text-gray-700 mb-2 sm:mb-0">
             <input
               type="checkbox"
               className="mr-2"
