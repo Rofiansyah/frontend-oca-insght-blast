@@ -41,18 +41,18 @@ const Content = () => {
 
       {/* Banner Card dengan Gradient Border Merah dan Hover Effect */}
       <div className="relative p-[2px] bg-gradient-to-r from-red-500 to-pink-500 rounded-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out cursor-pointer mb-6">
-        <div className="bg-white rounded-lg p-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-2">PRIME TIME</h3>
-          <p className="text-gray-600 mb-4">
+        <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-lg p-6">
+          <h3 className="text-xl font-bold text-white mb-2">PRIME TIME</h3>
+          <p className="text-white mb-4">
             Gunakan Prime Time untuk memastikan pesan Anda dibaca cepat dan efektif. Jangan lewatkan momen emas ini!
           </p>
 
           {/* Jam Dummy dengan Efek "Deep" */}
           <div className="flex flex-col items-center mt-4">
-            <div className="text-4xl font-bold text-red-600 border-2 border-red-600 rounded-full p-4 animate-pulse shadow-lg transform hover:scale-110 transition duration-300">
+            <div className="text-4xl font-bold text-red-600 border-2 border-red-600 rounded-full p-4 bg-white animate-pulse shadow-lg transform hover:scale-110 transition duration-300">
               12:30
             </div>
-            <p className="mt-2 text-gray-500 text-sm italic">Average read: 30 seconds</p>
+            <p className="mt-2 text-gray-300 text-sm italic">Average read: 30 seconds</p>
           </div>
         </div>
       </div>
