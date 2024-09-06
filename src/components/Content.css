@@ -1,0 +1,63 @@
+/* Sliding animation for the arrows */
+@keyframes slide-left {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-10px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slide-right {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(10px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  /* Glowing effect on hover */
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 5px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 0, 0, 0.6);
+    }
+    50% {
+      box-shadow: 0 0 10px rgba(255, 0, 0, 1), 0 0 20px rgba(255, 0, 0, 0.8);
+    }
+    100% {
+      box-shadow: 0 0 5px rgba(255, 0, 0, 0.8), 0 0 10px rgba(255, 0, 0, 0.6);
+    }
+  }
+  
+  /* Arrow styling */
+  .arrow-left, .arrow-right {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    cursor: pointer;
+  }
+  
+  .arrow-left {
+    border-width: 10px 12px 10px 0;
+    border-color: transparent white transparent transparent;
+    animation: slide-left 2s infinite;
+  }
+  
+  .arrow-right {
+    border-width: 10px 0 10px 12px;
+    border-color: transparent transparent transparent white;
+    animation: slide-right 2s infinite;
+  }
+  
+  /* Apply the glow effect on hover */
+  .arrow-left:hover, .arrow-right:hover {
+    animation: glow 1.5s infinite;
+  }
+  
