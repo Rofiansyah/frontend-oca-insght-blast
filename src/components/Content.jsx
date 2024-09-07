@@ -3,12 +3,12 @@ import './Content.css';
 import BannerPrimeTime from './BannerPrimeTime';
 import ContentHeader from './ContentHeader';
 import MessageContent from './MessageContent';
-import {FaTimesCircle } from 'react-icons/fa';
+import { FaTimesCircle } from 'react-icons/fa';
+import axios from 'axios';
 
 const Content = () => {
   const [isPrimeTimeChecked, setIsPrimeTimeChecked] = useState(false);
   const [isTodayChecked, setIsTodayChecked] = useState(false);
-  const [time, setTime] = useState('');
   const [broadcastName, setBroadcastName] = useState('');
   const [broadcastFormat, setBroadcastFormat] = useState('');
   const [recipient, setRecipient] = useState('');
@@ -31,7 +31,7 @@ const Content = () => {
     const isChecked = event.target.checked;
     setIsPrimeTimeChecked(isChecked);
     if (isChecked) {
-      setSelectedTime('12:30');
+      setSelectedTime('12:30'); // Replace with prime time from backend if needed
     } else {
       setSelectedTime('');
     }
@@ -92,7 +92,7 @@ const Content = () => {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
-  const handleSendClick = () => {
+  const handleSendClick = async () => {
     setTouched({
       broadcastName: true,
       broadcastFormat: true,
@@ -105,16 +105,33 @@ const Content = () => {
 
     if (!date || !selectedTime || !message || !templateName || !broadcastFormat || !broadcastName) {
       alert('Please fill out all required fields!');
-    } else {
-      alert('Message successfully sent!');
+      return;
+    }
+
+    const requestBody = {
+      message: message,
+      scheduledDate: date,
+      scheduledTime: selectedTime,
+    };
+
+    try {
+      const response = await axios.post('http://localhost:4000/blast/blast', requestBody);
+      if (response.status === 200) {
+        alert('Message successfully sent!');
+      } else {
+        alert('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      alert('Failed to send message!');
     }
   };
 
   return (
     <main className="flex-1 bg-gray-100 p-6 font-sans">
-      <ContentHeader/>
+      <ContentHeader />
 
-      <BannerPrimeTime/>
+      <BannerPrimeTime />
 
       <div className="bg-white rounded-lg shadow-md p-6 mb-4">
         <h3 className="text-xl font-bold text-gray-800 mb-4">BLAST YOUR MESSAGE</h3>
