@@ -1,18 +1,15 @@
-// src/components/BannerPrimeTime.jsx
-
 import React, { useEffect, useState } from 'react';
 import { fetchPrimeTimeData } from '../api/primetimeApi'; // Import the function from api folder
 
-const BannerPrimeTime = () => {
-  const [primeTimeData, setPrimeTimeData] = useState({ bestTime: "", bestAvgTime: "" });
+const BannerPrimeTime = ({ primeTimeData, setPrimeTimeData }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getPrimeTimeData = async () => {
       try {
-        const data = await fetchPrimeTimeData(); // Call the function to fetch data
-        setPrimeTimeData(data);
+        const data = await fetchPrimeTimeData(); // Fetch data from API
+        setPrimeTimeData(data); // Pass the data back up using the callback
       } catch (error) {
         setError(error.message); // Set error message
       } finally {
@@ -20,8 +17,17 @@ const BannerPrimeTime = () => {
       }
     };
 
+    // Fetch prime time data on component mount
     getPrimeTimeData();
-  }, []);
+
+    // Set an interval to fetch data every 30 seconds
+    const intervalId = setInterval(() => {
+      getPrimeTimeData();
+    }, 10000); // 30000 milliseconds = 30 seconds
+
+    // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [setPrimeTimeData]);
 
   return (
     <div className="relative p-[2px] bg-gradient-to-r from-red-500 to-pink-500 rounded-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out cursor-pointer mb-6">

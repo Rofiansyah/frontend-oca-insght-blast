@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+// src/components/Content.jsx
+
+import React, { useState, useEffect } from 'react';
 import './Content.css';
 import BannerPrimeTime from './BannerPrimeTime';
 import ContentHeader from './ContentHeader';
@@ -16,7 +18,8 @@ const Content = () => {
   const [message, setMessage] = useState('');
   const [date, setDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
-  
+  const [primeTimeData, setPrimeTimeData] = useState({ bestTime: '', bestAvgTime: '' });
+
   const [touched, setTouched] = useState({
     broadcastName: false,
     broadcastFormat: false,
@@ -24,16 +27,22 @@ const Content = () => {
     templateName: false,
     message: false,
     date: false,
-    selectedTime: false
+    selectedTime: false,
   });
 
+  // Effect to update selectedTime when primeTimeData changes and isPrimeTimeChecked is true
+  useEffect(() => {
+    if (isPrimeTimeChecked && primeTimeData.bestTime) {
+      setSelectedTime(primeTimeData.bestTime);
+    }
+  }, [isPrimeTimeChecked, primeTimeData]);
+
+  // Handle checkbox change for prime time
   const handleCheckboxChange = (event) => {
     const isChecked = event.target.checked;
     setIsPrimeTimeChecked(isChecked);
-    if (isChecked) {
-      setSelectedTime('12:30'); // Replace with prime time from backend if needed
-    } else {
-      setSelectedTime('');
+    if (!isChecked) {
+      setSelectedTime(''); // Clear selected time if unchecked
     }
   };
 
@@ -100,7 +109,7 @@ const Content = () => {
       templateName: true,
       message: true,
       date: true,
-      selectedTime: true
+      selectedTime: true,
     });
 
     if (!date || !selectedTime || !message || !templateName || !broadcastFormat || !broadcastName) {
@@ -115,7 +124,10 @@ const Content = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:4000/blast/blast', requestBody);
+      const response = await axios.post(
+        'https://721d-2404-8000-1024-1a7a-22ac-1461-b229-4046.ngrok-free.app/blast/blast',
+        requestBody
+      );
       if (response.status === 200) {
         alert('Message successfully sent!');
       } else {
@@ -131,7 +143,8 @@ const Content = () => {
     <main className="flex-1 bg-gray-100 p-6 font-sans">
       <ContentHeader />
 
-      <BannerPrimeTime />
+      {/* Pass down primeTimeData and setPrimeTimeData */}
+      <BannerPrimeTime primeTimeData={primeTimeData} setPrimeTimeData={setPrimeTimeData} />
 
       <div className="bg-white rounded-lg shadow-md p-6 mb-4">
         <h3 className="text-xl font-bold text-gray-800 mb-4">BLAST YOUR MESSAGE</h3>
@@ -144,14 +157,14 @@ const Content = () => {
             <input
               type="text"
               className={`border rounded p-2 w-full focus:outline-none focus:ring-2 ${
-                (!broadcastName && touched.broadcastName) ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                !broadcastName && touched.broadcastName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
               }`}
               placeholder="Enter your broadcast name"
               value={broadcastName}
               onChange={handleBroadcastNameChange}
               onBlur={() => handleBlur('broadcastName')}
             />
-            {(!broadcastName && touched.broadcastName) && (
+            {!broadcastName && touched.broadcastName && (
               <p className="text-sm text-red-500 mt-1 flex items-center">
                 <FaTimesCircle className="mr-1" />
                 Broadcast name must be entered.
@@ -164,7 +177,7 @@ const Content = () => {
             </label>
             <select
               className={`border rounded p-2 w-full focus:outline-none focus:ring-2 ${
-                (!broadcastFormat && touched.broadcastFormat) ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                !broadcastFormat && touched.broadcastFormat ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
               }`}
               value={broadcastFormat}
               onChange={handleBroadcastFormatChange}
@@ -175,7 +188,7 @@ const Content = () => {
               </option>
               <option value="Template Message">Template Message</option>
             </select>
-            {(!broadcastFormat && touched.broadcastFormat) && (
+            {!broadcastFormat && touched.broadcastFormat && (
               <p className="text-sm text-red-500 mt-1 flex items-center">
                 <FaTimesCircle className="mr-1" />
                 Format must be selected.
@@ -191,7 +204,7 @@ const Content = () => {
             </label>
             <select
               className={`border rounded p-2 w-full focus:outline-none focus:ring-2 ${
-                (!recipient && touched.recipient) ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                !recipient && touched.recipient ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
               }`}
               value={recipient}
               onChange={handleRecipientChange}
@@ -202,7 +215,7 @@ const Content = () => {
               </option>
               <option value="Group 1">All Contact</option>
             </select>
-            {(!recipient && touched.recipient) && (
+            {!recipient && touched.recipient && (
               <p className="text-sm text-red-500 mt-1 flex items-center">
                 <FaTimesCircle className="mr-1" />
                 Recipient must be selected.
@@ -216,7 +229,7 @@ const Content = () => {
               </label>
               <select
                 className={`border rounded p-2 w-full focus:outline-none focus:ring-2 ${
-                  (!templateName && touched.templateName) ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                  !templateName && touched.templateName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
                 }`}
                 value={templateName}
                 onChange={handleTemplateNameChange}
@@ -227,7 +240,7 @@ const Content = () => {
                 </option>
                 <option value="Template 1">Team 37 - Digistar</option>
               </select>
-              {(!templateName && touched.templateName) && (
+              {!templateName && touched.templateName && (
                 <p className="text-sm text-red-500 mt-1 flex items-center">
                   <FaTimesCircle className="mr-1" />
                   Template must be selected.
@@ -244,7 +257,7 @@ const Content = () => {
             </label>
             <textarea
               className={`border rounded p-2 w-full h-32 resize-none focus:outline-none focus:ring-2 ${
-                (!message && touched.message) ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                !message && touched.message ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
               }`}
               placeholder="Your message here..."
               value={message}
@@ -252,7 +265,7 @@ const Content = () => {
               onBlur={() => handleBlur('message')}
               readOnly
             />
-            {(!message && touched.message) && (
+            {!message && touched.message && (
               <p className="text-sm text-red-500 mt-1 flex items-center">
                 <FaTimesCircle className="mr-1" />
                 Message must be entered.
@@ -274,13 +287,13 @@ const Content = () => {
             <input
               type="date"
               className={`border rounded p-2 w-full focus:outline-none focus:ring-2 ${
-                (!date && touched.date) ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                !date && touched.date ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
               }`}
               value={date}
               onChange={handleDateChange}
               onBlur={() => handleBlur('date')}
             />
-            {(!date && touched.date) && (
+            {!date && touched.date && (
               <p className="text-sm text-red-500 mt-1 flex items-center">
                 <FaTimesCircle className="mr-1" />
                 Date must be selected.
@@ -295,14 +308,14 @@ const Content = () => {
             <input
               type="time"
               className={`border rounded p-2 w-full focus:outline-none focus:ring-2 ${
-                (!selectedTime && touched.selectedTime) ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                !selectedTime && touched.selectedTime ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
               }`}
               value={selectedTime}
               onChange={handleTimeChange}
               onBlur={() => handleBlur('selectedTime')}
               disabled={isPrimeTimeChecked}
             />
-            {(!selectedTime && touched.selectedTime) && (
+            {!selectedTime && touched.selectedTime && (
               <p className="text-sm text-red-500 mt-1 flex items-center">
                 <FaTimesCircle className="mr-1" />
                 Time must be selected.

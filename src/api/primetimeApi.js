@@ -2,7 +2,7 @@
 
 export const fetchPrimeTimeData = async () => {
     try {
-      const response = await fetch('https://5628-2404-8000-1024-1a7a-22ac-1461-b229-4046.ngrok-free.app/blast/primetime', {
+      const response = await fetch('https://721d-2404-8000-1024-1a7a-22ac-1461-b229-4046.ngrok-free.app/blast/primetime', {
         headers: {
           'ngrok-skip-browser-warning': 'true', // Bypass Ngrok warning
         },
@@ -33,3 +33,4 @@ export const fetchPrimeTimeData = async () => {
     }
   };
   
+
